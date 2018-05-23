@@ -1,11 +1,18 @@
 package com.app.cms.adminapp.domain.vo;
 
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+@ToString
 @Entity
-//@Data
 @Table(name = "TB_USER")
 public class User {
     @Id
@@ -19,145 +26,19 @@ public class User {
     private String  empIp;
     private String  passwd;
     private int     failCnt;
-    private Date    lifeDateStart;
-    private Date    lifeDateEnd;
 
-    @CreatedDate
-    private Date    lastLoginTime;
+    private Timestamp    lifeDateStart;
+    private Timestamp    lifeDateEnd;
+
+    @UpdateTimestamp
+    private Timestamp lastLoginTime;
     private int     isCountLock;
     private String  lockEtc;
 
-    @CreatedDate
-    private Date    regDate;
+    @CreationTimestamp
+    private Timestamp    regDate;
     private String  regEmpSeq;
 
-    public int getEmpSeq() {
-        return empSeq;
-    }
-
-    public void setEmpSeq(int empSeq) {
-        this.empSeq = empSeq;
-    }
-
-    public String getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(String empId) {
-        this.empId = empId;
-    }
-
-    public String getEmpNm() {
-        return empNm;
-    }
-
-    public void setEmpNm(String empNm) {
-        this.empNm = empNm;
-    }
-
-    public String getSvcNo() {
-        return svcNo;
-    }
-
-    public void setSvcNo(String svcNo) {
-        this.svcNo = svcNo;
-    }
-
-    public String getMacAddr() {
-        return macAddr;
-    }
-
-    public void setMacAddr(String macAddr) {
-        this.macAddr = macAddr;
-    }
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
-    }
-
-    public String getEmpIp() {
-        return empIp;
-    }
-
-    public void setEmpIp(String empIp) {
-        this.empIp = empIp;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
-
-    public int getFailCnt() {
-        return failCnt;
-    }
-
-    public void setFailCnt(int failCnt) {
-        this.failCnt = failCnt;
-    }
-
-    public Date getLifeDateStart() {
-        return lifeDateStart;
-    }
-
-    public void setLifeDateStart(Date lifeDateStart) {
-        this.lifeDateStart = lifeDateStart;
-    }
-
-    public Date getLifeDateEnd() {
-        return lifeDateEnd;
-    }
-
-    public void setLifeDateEnd(Date lifeDateEnd) {
-        this.lifeDateEnd = lifeDateEnd;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public int getIsCountLock() {
-        return isCountLock;
-    }
-
-    public void setIsCountLock(int isCountLock) {
-        this.isCountLock = isCountLock;
-    }
-
-    public String getLockEtc() {
-        return lockEtc;
-    }
-
-    public void setLockEtc(String lockEtc) {
-        this.lockEtc = lockEtc;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public String getRegEmpSeq() {
-        return regEmpSeq;
-    }
-
-    public void setRegEmpSeq(String regEmpSeq) {
-        this.regEmpSeq = regEmpSeq;
-    }
 }
 
 

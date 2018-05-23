@@ -51,6 +51,10 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/layout")
+    public void layout(Model model){
+    }
+
 
     @GetMapping(path="/add") // Map ONLY GET Requests
     public @ResponseBody
