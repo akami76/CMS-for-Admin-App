@@ -156,4 +156,10 @@ public class UserRepositoryTest {
     public void native쿼리테스트(){
         userRepository.findByEmpNmNativeQuery("강백").forEach(user -> System.out.println(Arrays.toString(user)));
     }
+
+    @Test
+    public void 페이지테스트(){
+        Pageable pageable = new PageRequest(0, 10);
+       // userRepository.findBypage(pageable).forEach(user -> System.out.println(user));
+    }
 }

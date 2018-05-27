@@ -28,14 +28,20 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/user/list")
-    public String getList(Model model){
+    @GetMapping("/user2/list")
+    public String getList2(Model model){
        // model.addAttribute("users", userDao.getList());
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("message", "hello world");
         return "users";
     }
-
+    @GetMapping("/user/list")
+    public String getList(Model model){
+        // model.addAttribute("users", userDao.getList());
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("message", "hello world");
+        return "userlist";
+    }
     @GetMapping("/user/addForm")
     public String userAddForm(){
         return "addForm";

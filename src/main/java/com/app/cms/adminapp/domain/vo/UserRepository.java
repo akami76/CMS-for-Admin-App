@@ -44,4 +44,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     //query use
     @Query(value="SELECT emp_Nm,emp_Id,emp_Seq FROM TB_USER b WHERE EMP_NM LIKE %?1% AND EMP_SEQ > 0 ORDER BY EMP_SEQ DESC", nativeQuery = true)
     public List<Object[]> findByEmpNmNativeQuery(String empNm);
+
+    //@Query(value="select b from tb_user b where b.emp_seq > 0 order by b.emp_seq desc" )
+    //public List<User> findBypage(Pageable pageable);
 }
