@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "empSeq", nullable = false, updatable = false)
     private int     empSeq;
     private String  empId;
     private String  empNm;
@@ -26,6 +27,7 @@ public class User {
     private String  empIp;
     private String  passwd;
     private int     failCnt;
+
 
     private Timestamp    lifeDateStart;
     private Timestamp    lifeDateEnd;
@@ -37,7 +39,7 @@ public class User {
 
     @CreationTimestamp
     private Timestamp    regDate;
-    private String  regEmpSeq;
+    private int  regEmpSeq;
 
 }
 

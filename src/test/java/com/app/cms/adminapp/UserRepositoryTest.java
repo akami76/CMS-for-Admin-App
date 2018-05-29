@@ -53,7 +53,7 @@ public class UserRepositoryTest {
         akami.setPasswd("passwoooord");
         akami.setSvcNo("01099903141");
         akami.setSessionKey("23rfef2232#wfsf23fdgdgg4gg32");
-        akami.setRegEmpSeq("System");
+        akami.setRegEmpSeq(1);
         userRepository.save(akami);
     }
 
@@ -89,7 +89,7 @@ public class UserRepositoryTest {
             akami.setPasswd("passwoooord");
             akami.setSvcNo("01099903141");
             akami.setSessionKey("23rfef2232#wfsf23fdgdgg4gg32");
-            akami.setRegEmpSeq("System");
+            akami.setRegEmpSeq(1);
             userRepository.save(akami);
         }
 
@@ -133,13 +133,18 @@ public class UserRepositoryTest {
 
     @Test
     public void page페이지테스트(){
-        Pageable paging = new PageRequest(0,10, Sort.Direction.ASC, "empSeq");
+        //spring boot 2.0.0
+        Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC, "empSeq");
+        //Pageable paging = new PageRequest(0,15, Sort.Direction.ASC, "empSeq");
         Page<User>  users = userRepository.findByEmpSeqGreaterThan(0, paging);
 
         System.out.println("Page size : "+ users.getSize());
         System.out.println("total pages : "+ users.getTotalPages());
         System.out.println("total count  : "+ users.getTotalElements());
         System.out.println("Next : "+ users.nextPageable());
+        System.out.println("결과데이터 수 : "+ users.getNumberOfElements());
+        System.out.println("조회된 건수 : "+ users.getContent().size());
+        System.out.println("검색시 사용된 sort : "+ users.getSort());
 
         List<User> userList = users.getContent();
 
@@ -159,7 +164,22 @@ public class UserRepositoryTest {
 
     @Test
     public void 페이지테스트(){
-        Pageable pageable = new PageRequest(0, 10);
-       // userRepository.findBypage(pageable).forEach(user -> System.out.println(user));
+
+        Pageable pageable = PageRequest.of(0, 10);
+        userRepository.findBypage(pageable).forEach(user -> System.out.println(user));
+    }
+
+    @Test
+    public void 한명삭제() {
+        userRepository.deleteById(1405);
+
+    }
+
+    //like empId
+    @Test
+    public void 아이디로검색하기() {
+       // userRepository.findByEmpId("akami");
+        System.out.println(userRepository.findById(1805).toString());;
+
     }
 }
