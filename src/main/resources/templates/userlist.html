@@ -31,7 +31,7 @@
 
             <!--Table body-->
             <tbody>
-            <tr th:each="user : ${users}">
+            <tr th:each="user : ${page.result}">
                 <th th:text="${user.empSeq}">empSeq</th>
                 <td th:text="${user.empId}">empId</td>
                 <td th:text="${user.empNm}">empNm</td>
@@ -46,9 +46,30 @@
             <!--Table body-->
 
         </table>
+
+
+        <nav>
+            <div>
+                <ui class="pagination">
+                    <li class="page-item" th:if="${page.prevPage}">
+                        <a th:href ="${page.prevPage.pageNumber+1}">[[${page.prevPage}+1]]</a>
+                    </li>
+                    <li class="page-item" th:each="p:${page.pageList}">
+                        <li class="page-item" th:classappend="${p.pageNumber == page.currentPageNum -1}?active:'' " th:each="p:${page.pageList}">
+                             <a th:href="@{${#httpServletRequest.requestURI}+'/'+${p.pageNumber+1}}">[[${p.pageNumber}+1]]</a>|
+                        </li>
+                    </li>
+
+                    <li class="page-item" th:if="${page.nextPage}">
+                        <a th:href ="${page.nextPage.pageNumber}+1">Next [[${page.nextPage.pageNumber}+1]]</a>
+                    </li>
+                </ui>
+            </div>
+        </nav>
+
         <!--Table-->
         <small class="d-block text-right mt-3">
-            <a href="#">refreshed.</a>
+            <div> <span > [[${page.nextPage.pageNumber}+1]] refreshed.</span> 건</div>
         </small>
     </div>
 

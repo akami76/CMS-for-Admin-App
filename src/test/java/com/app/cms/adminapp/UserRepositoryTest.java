@@ -1,8 +1,8 @@
 package com.app.cms.adminapp;
 
 
-import com.app.cms.adminapp.domain.vo.User;
-import com.app.cms.adminapp.domain.vo.UserRepository;
+import com.app.cms.adminapp.domain.User;
+import com.app.cms.adminapp.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

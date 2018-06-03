@@ -1,8 +1,16 @@
 package com.app.cms.adminapp.controller;
 
-import com.app.cms.adminapp.domain.vo.User;
-import com.app.cms.adminapp.domain.vo.UserRepository;
+import com.app.cms.adminapp.comon.PageMaker;
+import com.app.cms.adminapp.comon.PageVO;
+import com.app.cms.adminapp.domain.User;
+import com.app.cms.adminapp.repository.UserRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 
 @Controller
+@Log
 public class UserController {
 
     //@Autowired
@@ -21,6 +31,41 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    //전체 목록 조회
+    @GetMapping("/user/list")
+    public String getList(PageVO vo, Model model){
+        // model.addAttribute("users", userDao.getList());
+        //model.addAttribute("users", userRepository.findAll());
+        //model.addAttribute("message", "hello world");
+
+        Pageable page = vo.makePageble(0, "empSeq");
+        log.info("" + page);
+
+        Page<User> users = userRepository.findByEmpSeqGreaterThan(0, page);
+
+
+            //spring boot 2.0.0
+            //Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC, "empSeq");
+            //Pageable paging = new PageRequest(0,15, Sort.Direction.ASC, "empSeq");
+            //Page<User> users = userRepository.findByEmpSeqGreaterThan(0, paging);
+
+            System.out.println("Page size : "+ users.getSize());
+            System.out.println("total pages : "+ users.getTotalPages());
+            System.out.println("total count  : "+ users.getTotalElements());
+            System.out.println("Next : "+ users.nextPageable());
+            System.out.println("결과데이터 수 : "+ users.getNumberOfElements());
+            System.out.println("조회된 건수 : "+ users.getContent().size());
+            System.out.println("검색시 사용된 sort : "+ users.getSort());
+
+            List<User> userList = users.getContent();
+
+           // userList.forEach(user -> System.out.println(user));
+        model.addAttribute("users", userList);
+        model.addAttribute("page", new PageMaker(users));
+        model.addAttribute("userPage", users);
+
+        return "userlist";
+    }
 
     @RequestMapping("/users2")
     public String welcome(Map<String, Object> model) {
@@ -35,13 +80,7 @@ public class UserController {
         model.addAttribute("message", "hello world");
         return "users";
     }
-    @GetMapping("/user/list")
-    public String getList(Model model){
-        // model.addAttribute("users", userDao.getList());
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("message", "hello world");
-        return "userlist";
-    }
+
     @GetMapping("/user/addForm")
     public String userAddForm(){
         return "addForm";

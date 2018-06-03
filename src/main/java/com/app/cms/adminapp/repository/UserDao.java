@@ -1,5 +1,6 @@
-package com.app.cms.adminapp.domain.vo;
+package com.app.cms.adminapp.repository;
 
+import com.app.cms.adminapp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

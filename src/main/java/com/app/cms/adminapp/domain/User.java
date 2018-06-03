@@ -1,4 +1,4 @@
-package com.app.cms.adminapp.domain.vo;
+package com.app.cms.adminapp.domain;
 
 import lombok.Getter;
 import lombok.Setter;

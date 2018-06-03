@@ -1,12 +1,12 @@
-package com.app.cms.adminapp.domain.vo;
+package com.app.cms.adminapp.repository;
 
+import com.app.cms.adminapp.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.security.Identity;
 import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
