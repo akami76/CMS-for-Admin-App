@@ -4,13 +4,44 @@
     <meta charset="UTF-8">
     <title>User List</title>
 </head>
+<div th:insert="~{fragments/script::script}"></div>
+<script th:inline="javascript">
+
+$(document).ready(function() {
+
+    $("#type").change(function(){
+        $("#k").focus();
+    })
+});
+
+//$(document).ready(funct   ion(){
+
+    //$("#type").change(function(){
+
+    //    $("#k").onfocus();
+    //)}
+//});
+</script>
+
 <body>
-<div th:insert="~{fragments/header::header}"></div>
+<div th:insert="~{fragments/header::navigator}"></div>
 
 <main role="main" class="container">
     <br>
     <div>
-        <h3 class="border-bottom border-gray pb-2 mb-0">User List</h3>
+        <h3 class="pb-2 mb-0">User List</h3>
+        <div id="searchBar" class="text-right">
+            <form class="form-inline">
+                <select class="form-control mb-2 mr-sm-2" id="type">
+                    <option selected>전체</option>
+                    <option value="empId">ID</option>
+                    <option value="empName">이름</option>
+                </select>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="k" placeholder="검색어">
+
+                <button type="submit" class="btn btn-dark mb-2">검색</button>
+            </form>
+        </div>
         <!--Table-->
         <table class="table table-hover">
 
@@ -19,12 +50,12 @@
             <tr>
                 <th>No</th>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Tel No</th>
-                <th>Fail Cnt</th>
-                <th>Last Login Time</th>
-                <th>Life Time</th>
-                <th>Locked</th>
+                <th>이름</th>
+                <th>전화번호</th>
+                <th>로긴실패 횟수</th>
+                <th>최근 로긴일시</th>
+                <th>로긴 기한</th>
+                <th>잠금여부</th>
             </tr>
             </thead>
             <!--Table head-->
@@ -56,7 +87,7 @@
                     </li>
                     <li class="page-item" th:each="p:${page.pageList}">
                         <li class="page-item" th:classappend="${p.pageNumber == page.currentPageNum -1}?active:'' " th:each="p:${page.pageList}">
-                             <a th:href="@{${#httpServletRequest.requestURI}+'/'+${p.pageNumber+1}}">[[${p.pageNumber}+1]]</a>|
+                             <a th:href="${p.pageNumber+1}">[[${p.pageNumber}+1]]</a>|
                         </li>
                     </li>
 
@@ -70,6 +101,12 @@
         <!--Table-->
         <small class="d-block text-right mt-3">
             <div> <span > [[${page.nextPage.pageNumber}+1]] refreshed.</span> 건</div>
+            <div> <span > prevPage [[${page.prevPage}]]</span></div>
+            <div> <span > nextPage [[${page.nextPage}]]</span></div>
+            <div> <span > page.nextPage.pageNumber [[${page.nextPage.pageNumber}]]</span></div>
+            <div> <span > page.nextPage.pageSize [[${page.nextPage.pageSize}]]</span></div>
+            <div> <span > currentPageNum [[${page.currentPageNum}]]</span></div>
+            <div> <span > totalPageNum [[${page.totalPageNum}]]</span></div>
         </small>
     </div>
 
