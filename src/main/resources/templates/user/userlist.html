@@ -12,6 +12,26 @@ $(document).ready(function() {
     $("#type").change(function(){
         $("#k").focus();
     })
+
+    $("#doSearchBtn").click(function() {
+        var searchType = $("#type").val();
+        var keyword = $("#k").val();
+        if(keyword.trim() == "") {
+            $( "#alertMsg" ).text( "<==검색어를 입력하세요.").show().fadeOut( 1000 );
+            $("#k").focus();
+            event.preventDefault();
+        }else {
+
+        }
+
+        //if("searchType")
+    });
+
+    $( "#searchFm" ).submit(function( event ) {
+        
+
+    });
+
 });
 
 //$(document).ready(funct   ion(){
@@ -31,15 +51,16 @@ $(document).ready(function() {
     <div>
         <h3 class="pb-2 mb-0">User List</h3>
         <div id="searchBar" class="text-right">
-            <form class="form-inline">
+            <form class="form-inline" id="searchFm">
                 <select class="form-control mb-2 mr-sm-2" id="type">
-                    <option selected>전체</option>
+                    <option selected value="">전체</option>
                     <option value="empId">ID</option>
                     <option value="empName">이름</option>
                 </select>
                 <input type="text" class="form-control mb-2 mr-sm-2" id="k" placeholder="검색어">
 
-                <button type="submit" class="btn btn-dark mb-2">검색</button>
+                <button type="submit" class="btn btn-dark mb-2" id="doSearchBtn">검색</button>
+                &nbsp;&nbsp;<span id="alertMsg" style="color:darkred"></span>
             </form>
         </div>
         <!--Table-->
@@ -68,9 +89,10 @@ $(document).ready(function() {
                 <td th:text="${user.empNm}">empNm</td>
                 <td th:text="${user.svcNo}">svcNo</td>
                 <td th:text="${user.failCnt}">failCnt</td>
-                <td th:text="${user.lastLoginTime}">lastLoginTime</td>
-                <td th:text="${user.lifeDateStart}">life Date</td>
-                <td th:text="${user.isCountLock}">isCountLock</td>
+                <td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}">lastLoginTime</td>
+                <td th:text="${#dates.format(user.lifeDateStart, 'yyyy-MM-dd HH:mm:ss')}">life Date</td>
+
+                <td th:text="${user.isCountLock== '0'} ? '잠김' : '사용중'">isCountLock</td>
             </tr>
 
             </tbody>
