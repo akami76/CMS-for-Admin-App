@@ -20,14 +20,14 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     //public User findOne(int empSeq);
 
-    public List<User> findUserByEmpId(String empId);
+    public List<User> findUserByEmpId(String empId, Pageable paging);
 
-    public List<User> findByEmpIdLike(String empId);
+    public Page<User> findByEmpIdLike(String empId, Pageable paging);
 
     public User findUserByEmpNm(String empNm);
 
     //@Query("Select emp_seq, emp_id, emp_ip, emp_nm  from tb_user where emp_nm like %:emp_nm%")
-    public List<User>  findByEmpNmContaining(String empNm);
+    public Page<User>  findByEmpNmContaining(String empNm, Pageable paging);
 
     //paging EmpSeq desc ordered
     public List<User> findByEmpSeqGreaterThanOrderByEmpSeqDesc(int empSeq, Pageable paging);
@@ -50,6 +50,10 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     //query use
     @Query(value="SELECT emp_Nm,emp_Id,emp_Seq FROM TB_USER b WHERE EMP_NM LIKE %?1% AND EMP_SEQ > 0 ORDER BY EMP_SEQ DESC", nativeQuery = true)
     public List<Object[]> findByEmpNmNativeQuery(String empNm);
+
+
+    @Query(value="SELECT emp_Nm,emp_Id,emp_Seq FROM TB_USER b WHERE EMP_NM LIKE %?1%  OR EMP_ID LILE %?1% AND EMP_SEQ > 0 ORDER BY EMP_SEQ DESC", nativeQuery = true)
+    public Page<User> findByEmpIdLikeOrEmpNm(String empNm, Pageable paging);
 
     //query를 사용할때 주의해야 한다. native query가 아닌 경우는 모두 Object를 가르키는 것이다. 해당 객체로 쿼리를 구현한다.
     @Query(value="SELECT emp_Nm,emp_Id,emp_Seq FROM tb_user b WHERE b.emp_Id LIKE CONCAT('%', :emp_Id%, '%')  AND b.emp_Seq > 0 ORDER BY b.emp_Seq DESC", nativeQuery = true)

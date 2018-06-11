@@ -34,11 +34,11 @@ public class UserController {
 
 
 
-    @GetMapping(value = {"/users/{pageNum}/{type}/{keyword}", "/users/{pageNum}", "/users"})
+    @GetMapping(value = {"/users/{pageNum}", "/users"})
     public String getList(
             @PathVariable(value = "pageNum", required = false) Integer pageNum,
-            @PathVariable(value = "type", required = false) String type,
-            @PathVariable(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "searchType", required = false) String searchType,
+            @RequestParam(value = "keyword", required = false) String keyword,
             Model model){
         // model.addAttribute("users", userDao.getList());
         //model.addAttribute("users", userRepository.findAll());
@@ -56,19 +56,33 @@ public class UserController {
 
         System.out.println("============================");
         System.out.println("pageNum : " + pageNum);
-        System.out.println("type : " + type);
+        System.out.println("type : " + searchType);
         System.out.println("keyword : " + keyword);
         PageVO vo = new PageVO();
-
-        if(pageNum != null)
-        vo.setPage(pageNum);
+        //if( keyword == null && searchType == null) {
+                vo.setPage(1);
+        //}else{
+          //  vo.setPage(pageNum);
+        //}
 
         Pageable page = vo.makePageble(0, "empSeq");
 
         //Pageable page = vo.makePageble(0, "empSeq");
         log.info("" + page);
+        Page<User> users;
 
-        Page<User> users = userRepository.findByEmpSeqGreaterThan(0, page);
+        if( keyword == null && searchType == null) {
+            System.out.println("==============================12312312312312  ");
+            users = userRepository.findByEmpSeqGreaterThan(0, page);
+        }else if (searchType != null && keyword != null){
+                if("empId".equals(searchType)){
+                    users = userRepository.findByEmpIdLike(keyword, page);
+                }else{
+                    users = userRepository.findByEmpNmContaining(keyword, page);
+                }
+        }else{
+            users = userRepository.findByEmpIdLikeOrEmpNm(keyword, page);
+        }
 
 
             //spring boot 2.0.0

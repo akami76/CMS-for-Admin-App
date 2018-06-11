@@ -9,26 +9,40 @@
 
 $(document).ready(function() {
 
-    $("#type").change(function(){
-        $("#k").focus();
+    $("#searchType").change(function(){
+        $("#keyword").focus();
     })
 
-    $("#doSearchBtn").click(function() {
-        var searchType = $("#type").val();
-        var keyword = $("#k").val();
-        if(keyword.trim() == "") {
-            $( "#alertMsg" ).text( "<==검색어를 입력하세요.").show().fadeOut( 1000 );
-            $("#k").focus();
-            event.preventDefault();
-        }else {
+    var page;
 
+    $("#doSearchBtn").click(function() {
+        var searchType = $("#searchType").val();
+        var keyword = $("#keyword").val();
+         page = [[${page.currentPageNum}]];
+        if(keyword.trim() == "") {
+            $( "#alertMsg" ).text( "<==검색어를 입력하세요.").show().fadeOut( 3000 );
+            $("#keyword").focus();
+            event.preventDefault();
         }
+
+
+
+
+           // $( "#searchFm" ).attr("action", url);
 
         //if("searchType")
     });
 
     $( "#searchFm" ).submit(function( event ) {
-        
+        event.preventDefault();
+       // $( "#searchFm" ).submit();
+
+        var loc = "/users"
+            + "?searchType="
+            + $("select option:selected").val()
+            + "&keyword=" + $('#keyword').val();
+        alert(loc);
+        self.location = loc;
 
     });
 
@@ -52,12 +66,12 @@ $(document).ready(function() {
         <h3 class="pb-2 mb-0">User List</h3>
         <div id="searchBar" class="text-right">
             <form class="form-inline" id="searchFm">
-                <select class="form-control mb-2 mr-sm-2" id="type">
+                <select class="form-control mb-2 mr-sm-2" id="searchType">
                     <option selected value="">전체</option>
                     <option value="empId">ID</option>
                     <option value="empName">이름</option>
                 </select>
-                <input type="text" class="form-control mb-2 mr-sm-2" id="k" placeholder="검색어">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="keyword" placeholder="검색어">
 
                 <button type="submit" class="btn btn-dark mb-2" id="doSearchBtn">검색</button>
                 &nbsp;&nbsp;<span id="alertMsg" style="color:darkred"></span>
@@ -104,16 +118,16 @@ $(document).ready(function() {
         <nav>
             <div>
                 <ui class="pagination">
-                    <li class="page-item" th:if="${page.prevPage}">
+                    <li th:if="${page.prevPage}">
                         <a th:href ="${page.prevPage.pageNumber+1}">[[${page.prevPage}+1]]</a>
                     </li>
-                    <li class="page-item" th:each="p:${page.pageList}">
+                    <li th:each="p:${page.pageList}">
                         <li class="page-item" th:classappend="${p.pageNumber == page.currentPageNum -1}?active:'' " th:each="p:${page.pageList}">
                              <a th:href="${p.pageNumber+1}">[[${p.pageNumber}+1]]</a>|
                         </li>
                     </li>
 
-                    <li class="page-item" th:if="${page.nextPage}">
+                    <li th:if="${page.nextPage}">
                         <a th:href ="${page.nextPage.pageNumber}+1">Next [[${page.nextPage.pageNumber}+1]]</a>
                     </li>
                 </ui>

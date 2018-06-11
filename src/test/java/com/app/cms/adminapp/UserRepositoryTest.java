@@ -1,6 +1,7 @@
 package com.app.cms.adminapp;
 
 
+import com.app.cms.adminapp.comon.PageVO;
 import com.app.cms.adminapp.domain.User;
 import com.app.cms.adminapp.repository.UserRepository;
 import org.junit.Test;
@@ -25,6 +26,8 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    PageVO vo = new PageVO();
 
     @Test
     public void inspect(){
@@ -97,22 +100,28 @@ public class UserRepositoryTest {
 
     @Test
     public void 사번으로_계정_찾기(){
-        userRepository.findUserByEmpId("0000100198").forEach(user -> System.out.println(user));
+        Pageable page = vo.makePageble(0, "empSeq");
+        userRepository.findUserByEmpId("0000100198",page).forEach(user -> System.out.println(user));
     }
 
     @Test
     public void 비슷한_사번으로_계정_찾기(){
-        userRepository.findByEmpIdLike("0000100").forEach(user -> System.out.println(user));
+        Pageable page = vo.makePageble(0, "empSeq");
+        userRepository.findByEmpIdLike("0000100", page).forEach(user -> System.out.println(user));
     }
 
     @Test
     public void 이름으로_계정_찾기() {
-        userRepository.findByEmpNmContaining("강백석100").forEach(user -> System.out.println(user));
+        PageVO vo = new PageVO();
+        Pageable page = vo.makePageble(0, "empSeq");
+        userRepository.findByEmpNmContaining("강백석100", page).forEach(user -> System.out.println(user));
     }
 
     @Test
     public void 비슷한_이름으로_계정_찾기(){
-        userRepository.findByEmpNmContaining("강백석").forEach(user -> System.out.println(user));
+
+        Pageable page = vo.makePageble(0, "empSeq");
+        userRepository.findByEmpNmContaining("강백석", page).forEach(user -> System.out.println(user));
     }
 
     @Test
